@@ -1,0 +1,141 @@
+<html>
+<head> 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<link rel="stylesheet" href="css8.css">
+<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src = "test_8_servicenow.js"></script>
+
+</head>
+
+<body ng-app="myApp" ng-controller="myCtrl">
+
+<div class = "grid-container">
+
+<div>
+<button class = "btn btn-success" style = "margin-top: 50px; margin-left: 10%; margin-bottom: 50px; -ms-grid-row: 1;  -ms-grid-column: 1" ng-click = "fetch()">
+Fetch users from DB</button>
+<button ng-if="users" class = "btn btn-warning" style = "margin-top: 10px; margin-left: 10%; margin-bottom: 50px; -ms-grid-row: 1;  -ms-grid-column: 1" ng-click="add()">
+Add a user to DB</button>
+</div>
+
+<div>
+<table ng-if = "users" class = "table-hover table-bordered">
+<tbody>
+<tr class="bg-success">
+<td ng-if = "option=='email'||option=='name'||option=='user_name'" ng-repeat = "option in user_options track by $index"><strong>{{option}}</strong></td>
+</tr>
+<tr ng-repeat = "user in users">
+<td ng-if = "option=='email'||option=='name'||option=='user_name'" ng-class = "{'fixed_column' : option=='name'}" ng-repeat = "option in user_options track by $index">
+<div ng-if = "option=='name'"  class="dropdown locate">                 
+           <button class="button button-success btn" type="button" data-toggle="dropdown"><span class="caret"></span></button>          
+            <ul class="dropdown-menu" role="menu">           
+                <li role="presentation"><a href="" role="menuitem" ng-click="change(user)">Change the user</a></li>
+				<li role="presentation"><a href="" role="menuitem" ng-click="delete(user)">Delete the user</a></li>
+            </ul>            
+
+</div> 
+
+<div style = "display: inline">{{user[option]}}</div> 
+
+
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+
+</div>
+  
+  
+ <!-- Modal add user-->
+  <div class="modal fade" id="myModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Please enter the data:</h4>
+        </div>
+        <div class="modal-body">
+				
+		<form name = "add_user">
+		<div class="form-group">
+        <div ng-if="users && (option=='email'||option=='first_name'||option=='last_name'||option=='user_name')" ng-repeat = "option in user_options | orderBy: option">
+		<label for="{{option}}">{{option}}</label>
+		<input id="{{option}}" class="form-control" type="text" name="{{option}}" ng-model = "user[option]" required><br>
+		</div>	
+        <button class="btn btn-default" type = "submit" ng-disabled = "disabled" ng-click = "addUser()">Ok</button>
+		
+		</div>
+        </form>			
+		
+        </div>	
+
+	   <div class = "modal-footer" style = "font: bold italic 14pt; text-align: center" ng-if = "message">{{message}}</div>	
+      </div>	  
+    </div>
+  </div>
+
+
+<!-- Modal change user-->
+  <div class="modal fade" id="myChangeModal" role="dialog">
+    <div class="modal-dialog">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h4 class="modal-title">Please enter the data:</h4>
+        </div>
+        <div class="modal-body">
+				
+		<form name = "add_user">
+		<div class="form-group">
+        <div ng-if="users && (option=='email'||option=='first_name'||option=='last_name'||option=='user_name')" ng-repeat = "option in user_options | orderBy: option">
+		<label for="{{option}}">{{option}}</label>
+		<input class="form-control" ng-disabled = "disabled" type="text" name="{{option}}" ng-model = "changeUser[option]" required><br>
+		</div>	
+        <button class="btn btn-default" type = "submit" ng-disabled = "disabled" ng-click = "sendUserData()">Ok</button>
+		
+		</div>
+        </form>			
+		
+        </div>	
+
+	   <div class = "modal-footer" style = "font: bold italic 14pt; text-align: center" ng-if = "message">{{message}}</div>	
+      </div>	  
+    </div>
+  </div>
+  
+  
+<!-- Modal delete user-->
+  <div class="modal fade" id="myDeleteModal" role="dialog">
+    <div class="modal-dialog modal-sm">
+    
+      <!-- Modal content-->
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>  
+		  <h4 class="modal-title" style = "text-align: center">Are you sure to delete the user?</h4>
+         </div>
+        <div class="modal-body">
+		
+        <button class="btn btn-default" style = "display: inline; margin-left: 30%" ng-disabled = "dis" ng-click = "removeUser()">Ok</button>
+		<button class="btn btn-default" data-dismiss="modal" ng-disabled = "dis">Cancel</button>
+        </div>	
+
+	   <div class = "modal-footer" style = "font: bold italic 14pt; text-align: center" ng-if = "message">{{message}}</div>	
+      </div>	  
+    </div>
+  </div> 
+  
+  
+  
+  
+  
+</body>
+</html>
