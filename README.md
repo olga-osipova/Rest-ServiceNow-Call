@@ -1,5 +1,5 @@
 # Rest-ServiceNow-Call
-Calling User table in a ServiceNow developer instance and performing DB operations
+Calling User table from a ServiceNow developer instance by localhost AngularJS SPA and performing DB operations
 
 1. Create a CORS rule in your ServiceNow Developer instance ('sys_cors_rule' table):
 Name: localhost
